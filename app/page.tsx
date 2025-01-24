@@ -14,7 +14,7 @@ export default async function Home() {
           <div className="flex flex-col gap-4">
             <h1 className="text-3xl font-bold">Discover Popup Cities</h1>
             <p className="text-muted-foreground">
-              Explore temporary urban spaces and unique cultural experiences around the world
+              Explore Pop-Up Cities and Network States around the world
             </p>
           </div>
           <CityFilters />
@@ -24,6 +24,16 @@ export default async function Home() {
             ))}
           </div>
         </section>
+{/*         
+        <section className="container py-6 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto">
+          <div className="flex flex-col gap-4 mb-6">
+            <h2 className="text-2xl font-bold">Interactive Map</h2>
+            <p className="text-muted-foreground">
+              View all popup cities on an interactive map to explore their locations
+            </p>
+          </div>
+          <Map cities={cities} />
+        </section> */}
       </main>
     </div>
   )

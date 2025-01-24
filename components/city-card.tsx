@@ -26,8 +26,18 @@ function parseOrganizers(organizers: string): OrganizerWithLink[] {
     return {
       name: org.trim()
     }
-  })
-}
+  })}
+
+
+  function convertDateToString(dateString: string): string {
+    const [day, month, year] = dateString.split("-").map(Number);
+    const monthNames = [
+      "January", "February", "March", "April", "May", "June", 
+      "July", "August", "September", "October", "November", "December"
+    ];
+    return !dateString ? '' : `${day} ${monthNames[month - 1]}, ${year}`;
+  }
+
 
 export function CityCard({
   "Popup Name": popupName,
@@ -44,6 +54,8 @@ export function CityCard({
   Image: image,
 }: CityCardProps) {
   const parsedOrganizers = parseOrganizers(organizers)
+  const formattedStartDate = convertDateToString(startDate)
+  const formattedEndDate = convertDateToString(endDate)
 
   return (
     <Card className="overflow-hidden">
@@ -56,6 +68,7 @@ export function CityCard({
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         <div className="absolute top-2 right-2 flex gap-2 z-10">
+          {/* {communityThemes} */}
           {(Array.isArray(communityThemes) ? communityThemes : communityThemes?.split(','))?.map((theme) => (
             <Badge key={theme} className="bg-primary/80">{theme}</Badge>
           ))}
@@ -73,7 +86,7 @@ export function CityCard({
           <div className="grid gap-2">
             <div className="flex items-center gap-2 text-sm">
               <Calendar className="h-4 w-4 text-muted-foreground" />
-              <span>{startDate} - {endDate}</span>
+              <span>{formattedStartDate} - {formattedEndDate}</span>
             </div>
             <div className="flex items-center gap-2 text-sm">
               <Users className="h-4 w-4 text-muted-foreground" />
