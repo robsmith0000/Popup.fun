@@ -1,13 +1,30 @@
-import { Calendar, Globe, MapPin, ThermometerSun, Users, XIcon } from "lucide-react"
+import { Calendar, Globe,  Users, XIcon } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { City } from "@/types/city"
+// import { City } from "@/types/city"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import React from "react"
 
-interface CityCardProps extends City {}
+// interface CityCardProps extends City {}
+
+interface CityCardProps {
+  "Popup Name": string
+  Location: string
+  "Start Date": string
+  "End Date": string
+  "Website Link": string
+  TLDR: string
+  Organizers: string
+  "Community Themes": string[]
+  "X Link": string
+  "Organizer Type": string
+  "Application Process": string
+  Image: string
+  Latitude: number
+  Longitude: number
+} 
 
 interface OrganizerWithLink {
   name: string;
@@ -69,9 +86,9 @@ export function CityCard({
         />
         <div className="absolute top-2 right-2 flex gap-2 z-10">
           {/* {communityThemes} */}
-          {(Array.isArray(communityThemes) ? communityThemes : communityThemes?.split(','))?.map((theme) => (
+          {/* {(Array.isArray(communityThemes) ? communityThemes : communityThemes?.split(','))?.map((theme) => (
             <Badge key={theme} className="bg-primary/80">{theme}</Badge>
-          ))}
+          ))} */}
         </div>
       </div>
       <CardHeader>
@@ -127,6 +144,7 @@ export function CityCard({
               </Link>
             </Button>
           </div>
+          <div> {applicationProcess}</div>
         </div>
       </CardContent>
     </Card>
