@@ -20,7 +20,8 @@ export default async function Home() {
           <CityFilters />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {cities.map((city) => (
-              <CityCard key={city['Popup Name']} {...city} />
+              <CityCard 
+                key={city['Popup Name']} {...city} />
             ))}
           </div>
         </section>

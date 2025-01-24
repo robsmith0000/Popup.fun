@@ -1,10 +1,11 @@
-import { Calendar, Globe,  Users, XIcon } from "lucide-react"
+import { Calendar, Globe,  Users, XIcon, Tent } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 // import { City } from "@/types/city"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import React from "react"
 
 // interface CityCardProps extends City {}
@@ -17,7 +18,7 @@ interface CityCardProps {
   "Website Link": string
   TLDR: string
   Organizers: string
-  "Community Themes": string[]
+  "Community Themes": string
   "X Link": string
   "Organizer Type": string
   "Application Process": string
@@ -73,37 +74,85 @@ export function CityCard({
   const parsedOrganizers = parseOrganizers(organizers)
   const formattedStartDate = convertDateToString(startDate)
   const formattedEndDate = convertDateToString(endDate)
+  console.log("Community Themes:", typeof communityThemes)
+  const themes = communityThemes.split(',').map(theme => theme.trim())
+  console.log("Themes:", typeof themes, themes)
 
   return (
-    <Card className="overflow-hidden">
-      <div className="relative aspect-[16/9]">
-        <Image 
-          src={image ? `/cities/${image}` : "/placeholder.svg"}
-          alt={`${popupName}, ${location}`}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
-        <div className="absolute top-2 right-2 flex gap-2 z-10">
-          {/* {communityThemes} */}
-          {/* {(Array.isArray(communityThemes) ? communityThemes : communityThemes?.split(','))?.map((theme) => (
-            <Badge key={theme} className="bg-primary/80">{theme}</Badge>
-          ))} */}
-        </div>
-      </div>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <span>{popupName}</span>
-          <span className="text-muted-foreground text-sm font-normal">{location}</span>
-        </CardTitle>
-        <CardDescription className="line-clamp-2">{tldr}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="grid gap-4">
+    <Dialog>
+      <Card className="overflow-hidden transition-all hover:shadow-lg cursor-pointer">
+        <DialogTrigger className="w-full text-left">
+          <div className="relative aspect-[16/9]">
+            <Image 
+              src={image ? `/cities/${image}` : "/placeholder.svg"}
+              alt={`${popupName}, ${location}`}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          </div>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <span>{popupName}</span>
+              <span className="text-muted-foreground text-sm font-normal">{location}</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4">
+              <div className="flex flex-wrap gap-1">
+                {themes.map((theme) => (
+                  <Badge key={theme} variant="secondary" className="text-xs">
+                    {theme}
+                  </Badge>
+                ))}
+              </div>
+              <div className="grid gap-2">
+                <div className="flex items-center gap-2 text-sm">
+                  <Calendar className="h-4 w-4 text-muted-foreground" />
+                  <span>{formattedStartDate} - {formattedEndDate}</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Tent className="h-4 w-4 text-muted-foreground" />
+                  {organizerType.split(',').map((type, index) => (
+                    <span key={index}>
+                      {index > 0 && ', '}
+                      {type.trim()}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </DialogTrigger>
+      </Card>
+
+      <DialogContent className="sm:max-w-[625px]">
+        <DialogHeader>
+          <DialogTitle>{popupName}</DialogTitle>
+          <DialogDescription>{location}</DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <p className="text-muted-foreground">{tldr}</p>
+          <div className="flex flex-wrap gap-1">
+            {themes.map((theme) => (
+              <Badge key={theme} variant="secondary" className="text-xs">
+                {theme}
+              </Badge>
+            ))}
+          </div>
           <div className="grid gap-2">
             <div className="flex items-center gap-2 text-sm">
               <Calendar className="h-4 w-4 text-muted-foreground" />
               <span>{formattedStartDate} - {formattedEndDate}</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Tent className="h-4 w-4 text-muted-foreground" />
+              {organizerType.split(',').map((type, index) => (
+                <span key={index}>
+                  {index > 0 && ', '}
+                  {type.trim()}
+                </span>
+              ))}
             </div>
             <div className="flex items-center gap-2 text-sm">
               <Users className="h-4 w-4 text-muted-foreground" />
@@ -125,8 +174,6 @@ export function CityCard({
                     )}
                   </React.Fragment>
                 ))}
-                {' • '}
-                {organizerType}
               </span>
             </div>
           </div>
@@ -144,10 +191,12 @@ export function CityCard({
               </Link>
             </Button>
           </div>
-          <div> {applicationProcess}</div>
+          <div className="text-sm text-muted-foreground">
+            <strong>Application Process:</strong> {applicationProcess}
+          </div>
         </div>
-      </CardContent>
-    </Card>
+      </DialogContent>
+    </Dialog>
   )
 }
 

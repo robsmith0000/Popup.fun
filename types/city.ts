@@ -6,7 +6,7 @@ export interface City {
   "Website Link": string
   TLDR: string
   Organizers: string
-  "Community Themes": string[]
+  "Community Themes": string
   "X Link": string
   "Organizer Type": string
   "Application Process": string
